@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-left">
+        <div class="brand-big">
+            <div class="shield">🛡</div>
+            <h1>PhishGuard<br><span>AI Security</span></h1>
+            <p>
+                Protect yourself from fake and phishing websites
+                using intelligent website analysis.
+            </p>
+        </div>
+    </div>
+
+    <div class="login-right">
+
+        <div class="login-box">
+
+            <div class="mini-logo">🛡️</div>
+
+            <h2>Welcome Back</h2>
+            <p class="muted">Sign in to continue</p>
+
+            <label>Username</label>
+            <input id="username" type="text" placeholder="Enter username">
+
+            <label>Password</label>
+            <input id="password" type="password" placeholder="Enter password">
+
+            <div class="login-options">
+                <label class="remember">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+
+                <span>Forgot Password?</span>
+            </div>
+
+            <button class="main-btn" onclick="login()">
+                Login →
+            </button>
+
+            <p class="register-text">
+                Don't have an account?
+                <b>Register</b>
+            </p>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= APPLICATION ================= -->
+
+<div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="side-brand">
+            <div class="side-logo">🛡</div>
+            <div>
+                <strong>PhishGuard</strong>
+                <small>AI Security</small>
+            </div>
+        </div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <button class="menu-item active" onclick="showPage('dashboard', this)">
+            <span>▦</span> Dashboard
+        </button>
+
+        <button class="menu-item" onclick="showPage('scanner', this)">
+            <span>⌕</span> Website Scanner
+        </button>
+
+        <button class="menu-item" onclick="showPage('history', this)">
+            <span>◷</span> Scan History
+        </button>
+
+        <button class="menu-item" onclick="showPage('reports', this)">
+            <span>▤</span> Reports
+        </button>
+
+        <div class="menu-title">SYSTEM</div>
+
+        <button id="adminMenu" class="menu-item" onclick="showPage('admin', this)">
+            <span>⚙</span> Admin Panel
+        </button>
+
+        <button class="menu-item logout" onclick="logout()">
+            <span>↪</span> Logout
+        </button>
+
+        <div class="sidebar-bottom">
+            <div class="security-status">
+                <span class="status-dot"></span>
+                System Protected
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <div class="page-heading" id="pageHeading">
+                    Dashboard
+                </div>
+
+                <div class="breadcrumb">
+                    PhishGuard AI / <span id="crumb">Dashboard</span>
+                </div>
+            </div>
+
+            <div class="user-area">
+
+                <div class="notification">🔔</div>
+
+                <div class="avatar" id="userAvatar">H</div>
+
+                <div>
+                    <strong id="loggedUserName">Heet</strong>
+                    <small id="loggedUserRole">Administrator</small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page active-page">
+
+            <div class="welcome">
+
+                <div>
+                    <p class="eyebrow">SECURITY OVERVIEW</p>
+
+                    <h1 id="welcomeGreeting">
+                        Good morning, Heet 👋
+                    </h1>
+
+                    <p class="muted">
+                        Monitor and analyze website security from one place.
+                    </p>
+                </div>
+
+                <button class="main-btn small" onclick="openScanner()">
+                    + New Scan
+                </button>
+
+            </div>
+
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">⌕</div>
+
+                    <div>
+                        <span>Total Scans</span>
+                        <h2 id="totalScans">24</h2>
+                        <small>↑ 12% this week</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">✓</div>
+
+                    <div>
+                        <span>Safe Websites</span>
+                        <h2 id="safeCount">15</h2>
+                        <small>62.5% of scans</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon yellow">!</div>
+
+                    <div>
+                        <span>Suspicious</span>
+                        <h2 id="suspiciousCount">6</h2>
+                        <small>25% of scans</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon red">⚠</div>
+
+                    <div>
+                        <span>Fake / Phishing</span>
+                        <h2 id="fakeCount">3</h2>
+                        <small>12.5% of scans</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Quick Website Scan</h3>
+                            <p>Analyze a URL instantly</p>
+                        </div>
+
+                        <span class="live-badge">● LIVE</span>
+
+                    </div>
+
+
+                    <div class="quick-input">
+
+                        <input
+                            id="quickURL"
+                            type="text"
+                            placeholder="https://example.com"
+                        >
+
+                        <button onclick="quickScan()">
+                            Analyze
+                        </button>
+
+                    </div>
+
+
+                    <div class="security-tip">
+                        💡 <b>Security Tip:</b>
+                        Always verify the domain before entering sensitive information.
+                    </div>
+
+
+                    <div id="quickScanResult" class="quick-result hidden">
+
+                        <div class="quick-result-head">
+
+                            <div>
+                                <span class="eyebrow">QUICK ANALYSIS</span>
+
+                                <h3 id="quickResultTitle">
+                                    Website Analysis
+                                </h3>
+                            </div>
+
+                            <span id="quickResultBadge" class="badge safe">
+                                Safe
+                            </span>
+
+                        </div>
+
+
+                        <div class="quick-result-grid">
+
+                            <div>
+                                <span>Risk Score</span>
+                                <strong id="quickRisk">0%</strong>
+                            </div>
+
+                            <div>
+                                <span>HTTPS</span>
+                                <strong id="quickHTTPS">Secure</strong>
+                            </div>
+
+                            <div>
+                                <span>Domain</span>
+                                <strong id="quickDomain">Normal</strong>
+                            </div>
+
+                            <div>
+                                <span>URL Pattern</span>
+                                <strong id="quickPattern">Low Risk</strong>
+                            </div>
+
+                        </div>
+
+
+                        <p id="quickRecommendation" class="quick-recommendation">
+                            Website analysis completed.
+                        </p>
+
+
+                        <button class="text-btn" onclick="openFullAnalysis()">
+                            View Full Analysis →
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Detection Summary</h3>
+                            <p>Current scan distribution</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-row">
+                        <span>
+                            <i class="dot green-dot"></i> Safe
+                        </span>
+                        <b>62.5%</b>
+                    </div>
+
+
+                    <div class="summary-row">
+                        <span>
+                            <i class="dot yellow-dot"></i> Suspicious
+                        </span>
+                        <b>25%</b>
+                    </div>
+
+
+                    <div class="summary-row">
+                        <span>
+                            <i class="dot red-dot"></i> Fake
+                        </span>
+                        <b>12.5%</b>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel recent-panel">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h3>Recent Activity</h3>
+                        <p>Latest website scans</p>
+                    </div>
+
+                    <button class="text-btn" onclick="showPageByName('history')">
+                        View All →
+                    </button>
+
+                </div>
+
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Website</th>
+                            <th>Status</th>
+                            <th>Risk Score</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recentTable">
+
+                        <tr>
+                            <td>google.com</td>
+                            <td>
+                                <span class="badge safe">Safe</span>
+                            </td>
+                            <td>8%</td>
+                            <td>10:42 AM</td>
+                        </tr>
+
+                        <tr>
+                            <td>paypa1-secure-login.com</td>
+                            <td>
+                                <span class="badge suspicious">Suspicious</span>
+                            </td>
+                            <td>67%</td>
+                            <td>10:18 AM</td>
+                        </tr>
+
+                        <tr>
+                            <td>secure-bank-login.xyz</td>
+                            <td>
+                                <span class="badge fake">Fake</span>
+                            </td>
+                            <td>94%</td>
+                            <td>09:51 AM</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SCANNER ================= -->
+
+        <section id="scanner" class="page">
+
+            <div class="page-intro">
+
+                <p class="eyebrow">WEBSITE SECURITY</p>
+
+                <h1>Website Scanner</h1>
+
+                <p class="muted">
+                    Analyze a website URL for suspicious characteristics.
+                </p>
+
+            </div>
+
+
+            <div class="scanner-layout">
+
+                <div class="scanner-main panel">
+
+                    <div class="scanner-icon">🛡️</div>
+
+                    <h2>Analyze Website URL</h2>
+
+                    <p class="muted">
+                        Enter the URL you want to check.
+                    </p>
+
+                    <label>Website URL</label>
+
+                    <div class="scanner-input">
+
+                        <span>🔗</span>
+
+                        <input
+                            id="scannerURL"
+                            type="text"
+                            placeholder="https://example.com"
+                        >
+
+                    </div>
+
+
+                    <button class="analyze-large" onclick="analyzeWebsite()">
+                        🔍 Analyze Website
+                    </button>
+
+
+                    <div class="analysis-info">
+
+                        <div>✓ URL Structure Analysis</div>
+                        <div>✓ HTTPS Security Check</div>
+                        <div>✓ Domain Analysis</div>
+                        <div>✓ Risk Assessment</div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel how-panel">
+
+                    <h3>How it works</h3>
+
+
+                    <div class="step">
+
+                        <b>01</b>
+
+                        <div>
+                            <strong>Enter URL</strong>
+                            <p>Provide the website address.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <b>02</b>
+
+                        <div>
+                            <strong>Analyze</strong>
+                            <p>Security characteristics are checked.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <b>03</b>
+
+                        <div>
+                            <strong>Risk Score</strong>
+                            <p>A risk level is generated.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <b>04</b>
+
+                        <div>
+                            <strong>Result</strong>
+                            <p>Safe, Suspicious or Fake.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RESULT ================= -->
+
+        <section id="result" class="page">
+
+            <div class="page-intro">
+
+                <p class="eyebrow">ANALYSIS COMPLETE</p>
+
+                <h1>Website Analysis Result</h1>
+
+            </div>
+
+
+            <div class="result-top panel">
+
+                <div id="resultCircle" class="result-circle">
+
+                    <span id="resultPercent">18%</span>
+
+                    <small>Risk Score</small>
+
+                </div>
+
+
+                <div class="result-main">
+
+                    <span id="resultBadge" class="badge safe">
+                        Safe
+                    </span>
+
+                    <h2 id="resultTitle">
+                        Website appears to be safe
+                    </h2>
+
+                    <p id="resultURL">
+                        https://example.com
+                    </p>
+
+                    <p class="muted">
+                        The website passed the basic security analysis.
+                    </p>
+
+                </div>
+
+
+                <button class="main-btn small" onclick="openScanner()">
+                    Scan Another
+                </button>
+
+            </div>
+
+
+            <div class="analysis-grid">
+
+                <div class="analysis-card panel">
+
+                    <div class="analysis-title">
+                        <span>🔒</span>
+                        <h3>HTTPS Security</h3>
+                    </div>
+
+                    <strong id="httpsResult">Secure</strong>
+
+                    <p>
+                        Encrypted connection detected.
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-card panel">
+
+                    <div class="analysis-title">
+                        <span>🌐</span>
+                        <h3>Domain Analysis</h3>
+                    </div>
+
+                    <strong id="domainResult">Normal</strong>
+
+                    <p>
+                        Domain structure analyzed.
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-card panel">
+
+                    <div class="analysis-title">
+                        <span>🔗</span>
+                        <h3>URL Analysis</h3>
+                    </div>
+
+                    <strong id="urlResult">Low Risk</strong>
+
+                    <p>
+                        URL characteristics checked.
+                    </p>
+
+                </div>
+
+
+                <div class="analysis-card panel">
+
+                    <div class="analysis-title">
+                        <span>🤖</span>
+                        <h3>AI Detection</h3>
+                    </div>
+
+                   <strong class="ai-model-result">
+    <span class="ai-status">Analysis Ready</span>
+</strong>
+
+<p class="ai-model-result">
+    <span class="ai-detail">
+        AI/ML detection result will appear here.
+    </span>
+</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel recommendation">
+
+                <h3>🛡️ Security Recommendation</h3>
+
+                <p id="recommendationText">
+                    This website appears safe based on the current prototype analysis.
+                    Always verify the website domain before sharing sensitive information.
+                </p>
+
+            </div>
+
+
+            <!-- ================= INTEGRATED THREAT INTELLIGENCE ================= -->
+
+            <div class="threat-divider"></div>
+
+            <section class="integrated-threat">
+
+                <div class="threat-section-head">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            NETWORK SECURITY INTELLIGENCE
+                        </p>
+
+                        <h2>Threat Intelligence</h2>
+
+                        <p class="muted">
+                            Network, infrastructure and threat analysis
+                        </p>
+
+                    </div>
+
+                    <span class="intel-version">
+                        ANISAS MODULE 1
+                    </span>
+
+                </div>
+
+
+                <div class="threat-metrics">
+
+                    <div class="threat-metric panel">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">◉</span>
+
+                            <div>
+                                <strong>NETWORK RISK SCORE</strong>
+                                <small>Infrastructure risk posture</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric-score-row">
+
+                            <div class="metric-ring">
+
+                                <span id="intelRiskScore">30</span>
+
+                                <small>/100</small>
+
+                            </div>
+
+
+                            <div>
+
+                                <b id="intelRiskTier">
+                                    MODERATE
+                                </b>
+
+                                <p id="intelRiskFactors">
+                                    1 Risk factor(s) flagged
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="threat-metric panel">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">⚙</span>
+
+                            <div>
+                                <strong>DATA CONFIDENCE INDEX</strong>
+                                <small>Telemetry reliability</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="confidence-number">
+
+                            <b id="intelConfidence">
+                                85%
+                            </b>
+
+                            <span>
+                                Telemetry Match
+                            </span>
+
+                        </div>
+
+
+                        <div class="confidence-bar">
+
+                            <span
+                                id="intelConfidenceBar"
+                                style="width:85%"
+                            ></span>
+
+                        </div>
+
+
+                        <small class="provider-text">
+                            Providers: RIPEstat, IP-API ·
+                            <b>HIGH MATCH</b>
+                        </small>
+
+                    </div>
+
+
+                    <div class="threat-metric panel">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">◷</span>
+
+                            <div>
+                                <strong>EXECUTION TELEMETRY</strong>
+                                <small>Target execution profile</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="telemetry-grid">
+
+                            <div>
+                                <span>Latency</span>
+                                <b id="intelLatency">1953 ms</b>
+                            </div>
+
+                            <div>
+                                <span>Reverse DNS</span>
+                                <b>No PTR record</b>
+                            </div>
+
+                            <div>
+                                <span>Multi-ASN</span>
+                                <b class="good-text">SINGLE ASN</b>
+                            </div>
+
+                        </div>
+
+
+                        <div class="telemetry-footer">
+
+                            UUID:
+                            <b id="intelUUID">
+                                PHG-ANISAS-001
+                            </b>
+
+                            <button class="copy-btn" onclick="copyIntelUUID()">
+                                Copy
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="intel-cards">
+
+                    <div class="panel intel-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">⌘</span>
+
+                            <div>
+                                <strong>ASN INTELLIGENCE</strong>
+                                <small>Autonomous System information</small>
+                            </div>
+
+                        </div>
+
+                        <span class="intel-label">
+                            AUTONOMOUS SYSTEM
+                        </span>
+
+                        <h3 id="intelASN">
+                            AS15169
+                        </h3>
+
+                        <p id="intelASNName">
+                            Sample Network
+                        </p>
+
+                        <div class="intel-pair">
+                            <span>Registry</span>
+                            <b>APNIC</b>
+                        </div>
+
+                        <div class="intel-pair">
+                            <span>CIDR Block</span>
+                            <b id="intelCIDR">
+                                Sample Prefix
+                            </b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel intel-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">▣</span>
+
+                            <div>
+                                <strong>ISP &amp; OPERATOR</strong>
+                                <small>Network ownership</small>
+                            </div>
+
+                        </div>
+
+                        <span class="intel-label">
+                            ORGANIZATION
+                        </span>
+
+                        <h3 id="intelISP">
+                            Sample Network
+                        </h3>
+
+                        <p id="intelISPCopy">
+                            Sample Network
+                        </p>
+
+                        <div class="intel-pair">
+                            <span>Classification</span>
+                            <b>Business / Corporate</b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel intel-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">⌖</span>
+
+                            <div>
+                                <strong>GEOLOCATION</strong>
+                                <small>Target location</small>
+                            </div>
+
+                        </div>
+
+                        <span class="intel-label">
+                            LOCATION
+                        </span>
+
+                        <h3 id="intelGeo">
+                            India (IN)
+                        </h3>
+
+                        <p id="intelCoords">
+                            Coordinates unavailable
+                        </p>
+
+                        <div class="intel-pair">
+                            <span>Timezone</span>
+                            <b>ASIA/KOLKATA</b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel intel-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">✉</span>
+
+                            <div>
+                                <strong>ABUSE &amp; OPERATIONS</strong>
+                                <small>Threat activity indicators</small>
+                            </div>
+
+                        </div>
+
+                        <span class="intel-label">
+                            ABUSE CONTACT
+                        </span>
+
+                        <h3 id="intelAbuse">
+                            Not available
+                        </h3>
+
+                        <span class="intel-label second-label">
+                            NOC CONTACT
+                        </span>
+
+                        <p id="intelNOC">
+                            Not available
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="threat-analysis-grid">
+
+                    <div class="panel threat-wide-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">▤</span>
+
+                            <div>
+                                <strong>EXECUTIVE OVERVIEW</strong>
+                                <small>High-level security assessment</small>
+                            </div>
+
+                        </div>
+
+                        <p id="intelExecutive" class="threat-text">
+                            Target infrastructure profile is generated from the current
+                            prototype analysis. Live network intelligence will be connected
+                            in the next integration phase.
+                        </p>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">⌁</span>
+
+                            <div>
+                                <strong>NETWORK ROUTING &amp; BGP POSTURE</strong>
+                                <small>Routing intelligence</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="intel-row">
+                            <span>Route Status</span>
+                            <b>Stable</b>
+                        </div>
+
+                        <div class="intel-row">
+                            <span>BGP Prefix</span>
+                            <b id="intelBGPPrefix">
+                                Sample Prefix
+                            </b>
+                        </div>
+
+                        <div class="intel-row">
+                            <span>Hijack Indicator</span>
+                            <b>Not Available</b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">⚠</span>
+
+                            <div>
+                                <strong>KNOWN ABUSE &amp; RECOMMENDATIONS</strong>
+                                <small>Security guidance</small>
+                            </div>
+
+                        </div>
+
+
+                        <ul class="recommend-list">
+
+                            <li>
+                                No confirmed abuse record found in this prototype.
+                            </li>
+
+                            <li>
+                                Monitor for unexpected route hijack or multi-ASN leakage.
+                            </li>
+
+                            <li>
+                                Maintain automated abuse-contact polling when live feeds
+                                are integrated.
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                    <!-- ================= TECHNICAL ARTIFACTS & BGP ================= -->
+
+                    <div class="panel threat-wide-card">
+
+                        <div class="intel-heading">
+
+                            <span class="intel-icon">◫</span>
+
+                            <div>
+                                <strong>TECHNICAL ARTIFACTS &amp; BGP ROUTING</strong>
+                                <small>Advanced technical intelligence</small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="bgp-table-wrap">
+
+                            <table class="bgp-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>BGP Prefix</th>
+                                        <th>ASN Origin</th>
+                                        <th>Global Visibility</th>
+                                        <th>Peers Count</th>
+                                        <th>Upstream Transits</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr>
+
+                                        <td id="intelBGPPrefixTable">
+                                            163.53.76.0/24
+                                        </td>
+
+                                        <td>
+                                            AS9752 (AS9752)
+                                        </td>
+
+                                        <td>
+                                            <span class="visibility-value">
+                                                99.9%
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            37 peers
+                                        </td>
+
+                                        <td>
+                                            AS9852 (Global Transit),
+                                            AS9952 (IXP Peer)
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="intel-footer">
+
+                    <span>
+                        <b>STATUS:</b> PROTOTYPE READY
+                    </span>
+
+                    <span>
+                        ENGINE: V1.2.04
+                    </span>
+
+                    <span>
+                        ANISAS MODULE 1 – AUTONOMOUS NETWORK INTELLIGENCE
+                    </span>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================= HISTORY ================= -->
+
+        <section id="history" class="page">
+
+            <div class="page-intro">
+
+                <p class="eyebrow">ACTIVITY</p>
+
+                <h1>Scan History</h1>
+
+                <p class="muted">
+                    View previously analyzed websites.
+                </p>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="filter-bar">
+
+                    <input
+                        id="historySearch"
+                        type="text"
+                        placeholder="Search website..."
+                        onkeyup="filterHistory()"
+                    >
+
+                    <button class="filter-btn">
+                        All Status ▾
+                    </button>
+
+                    <button class="filter-btn">
+                        Latest First ▾
+                    </button>
+
+                </div>
+
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Website</th>
+                            <th>Status</th>
+                            <th>Risk Score</th>
+                            <th>HTTPS</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="historyTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section id="reports" class="page">
+
+            <div class="page-intro">
+
+                <p class="eyebrow">
+                    SECURITY ANALYTICS
+                </p>
+
+                <h1>Reports</h1>
+
+                <p class="muted">
+                    Website detection statistics and security insights.
+                </p>
+
+            </div>
+
+
+            <div class="report-cards">
+
+                <div class="report-card">
+                    <span>Total Websites</span>
+                    <strong>24</strong>
+                    <small>Analyzed</small>
+                </div>
+
+
+                <div class="report-card">
+                    <span>Safe</span>
+                    <strong>15</strong>
+                    <small>62.5%</small>
+                </div>
+
+
+                <div class="report-card">
+                    <span>Suspicious</span>
+                    <strong>6</strong>
+                    <small>25%</small>
+                </div>
+
+
+                <div class="report-card">
+                    <span>Fake</span>
+                    <strong>3</strong>
+                    <small>12.5%</small>
+                </div>
+
+            </div>
+
+
+            <div class="panel chart-panel">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h3>Detection Overview</h3>
+                        <p>Website classification distribution</p>
+                    </div>
+
+                </div>
+
+
+                <div class="fake-chart">
+
+                    <div class="chart-bar">
+                        <span style="height: 80%"></span>
+                        <label>Mon</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 55%"></span>
+                        <label>Tue</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 70%"></span>
+                        <label>Wed</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 45%"></span>
+                        <label>Thu</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 90%"></span>
+                        <label>Fri</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 65%"></span>
+                        <label>Sat</label>
+                    </div>
+
+                    <div class="chart-bar">
+                        <span style="height: 75%"></span>
+                        <label>Sun</label>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel report-insight">
+
+                <h3>🧠 Security Insight</h3>
+
+                <p>
+                    Most analyzed websites are classified as safe.
+                    Suspicious websites should be reviewed carefully before
+                    entering credentials or personal information.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ADMIN ================= -->
+
+        <section id="admin" class="page">
+
+            <div id="adminDenied" class="admin-denied hidden">
+
+                <div class="access-lock-icon">⚿</div>
+
+                <p class="eyebrow">
+                    RESTRICTED AREA
+                </p>
+
+                <h2>
+                    Administrator Access Only
+                </h2>
+
+                <p>
+                    You are logged in as a User.
+                    The Admin Panel is available only to Administrator accounts.
+                </p>
+
+                <button
+                    class="main-btn small"
+                    onclick="showPageByName('dashboard')"
+                >
+                    Return to Dashboard
+                </button>
+
+            </div>
+
+
+            <div id="adminContent">
+
+                <div class="page-intro">
+
+                    <p class="eyebrow">
+                        SYSTEM MANAGEMENT
+                    </p>
+
+                    <h1>Admin Panel</h1>
+
+                    <p class="muted">
+                        Manage users, website records and reports.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-grid">
+
+                    <div class="admin-card">
+
+                        <div class="admin-icon">👥</div>
+
+                        <span>Total Users</span>
+
+                        <strong>3</strong>
+
+                        <small>
+                            Registered users
+                        </small>
+
+                    </div>
+
+
+                    <div class="admin-card">
+
+                        <div class="admin-icon">🌐</div>
+
+                        <span>Website Records</span>
+
+                        <strong>1,248</strong>
+
+                        <small>
+                            Stored records
+                        </small>
+
+                    </div>
+
+
+                    <div class="admin-card">
+
+                        <div class="admin-icon">📊</div>
+
+                        <span>Reports</span>
+
+                        <strong>36</strong>
+
+                        <small>
+                            Generated reports
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-head">
+
+                        <div>
+                            <h3>Recent Users</h3>
+                            <p>System users</p>
+                        </div>
+
+                        <button class="main-btn small">
+                            + Add User
+                        </button>
+
+                    </div>
+
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+                                <td>Heet</td>
+                                <td>Administrator</td>
+                                <td>
+                                    <span class="badge safe">
+                                        Active
+                                    </span>
+                                </td>
+                                <td>01 Sep 2026</td>
+                            </tr>
+                            <tr>
+                                <td>Admin</td>
+                                <td>Administrator</td>
+                                <td>
+                                    <span class="badge safe">Active</span>
+                                 </td>
+                                <td>02 Sep 2026</td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Demo User</td>
+                                <td>User</td>
+                                <td>
+                                    <span class="badge safe">
+                                        Active
+                                    </span>
+                                </td>
+                                <td>03 Sep 2026</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
